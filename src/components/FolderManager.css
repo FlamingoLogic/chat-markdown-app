@@ -1,0 +1,18 @@
+/* FolderManager.css */
+.folder-manager {
+  padding: 2rem;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.folder-manager h3 {
+  margin: 0 0 1rem 0;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.folder-manager p {
+  color: #888;
+  font-size: 1rem;
+} 
