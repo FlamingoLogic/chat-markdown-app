@@ -40,6 +40,10 @@ function App() {
     setSelectedDocument(document);
   };
 
+  const handleBackToDocuments = () => {
+    setSelectedDocument(null);
+  };
+
   const handlePublishDocument = (documentId) => {
     setDocuments(prev =>
       prev.map(doc =>
@@ -159,7 +163,10 @@ function App() {
           ) : (
             <div className="document-viewer">
               {selectedDocument ? (
-                <MarkdownViewer document={selectedDocument} />
+                <MarkdownViewer 
+                  document={selectedDocument} 
+                  onBack={handleBackToDocuments}
+                />
               ) : (
                 <div className="no-document">
                   <p>Select a document to view</p>

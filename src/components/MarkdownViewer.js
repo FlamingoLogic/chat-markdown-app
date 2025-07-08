@@ -4,7 +4,7 @@ import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css';
 import './MarkdownViewer.css';
 
-const MarkdownViewer = ({ document }) => {
+const MarkdownViewer = ({ document, onBack }) => {
   if (!document) {
     return (
       <div className="markdown-viewer">
@@ -19,6 +19,11 @@ const MarkdownViewer = ({ document }) => {
   return (
     <div className="markdown-viewer">
       <div className="document-header">
+        <div className="document-header-top">
+          <button onClick={onBack} className="back-button">
+            ← Back to Documents
+          </button>
+        </div>
         <h2>{document.title}</h2>
         <div className="document-meta">
           <span className={`status ${document.status}`}>
