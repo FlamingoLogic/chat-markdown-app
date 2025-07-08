@@ -12,6 +12,7 @@ function App() {
   const [currentFolder, setCurrentFolder] = useState('root');
   const [showFolderManager, setShowFolderManager] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState('');
   
   // Updated data structure to support folders
   const [folders, setFolders] = useState([
@@ -406,6 +407,20 @@ The app is automatically deployed to AWS Amplify when changes are pushed to the 
     );
   };
 
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (currentMessage.trim()) {
+      const newMessage = {
+        id: Date.now(),
+        user: isManagerMode ? 'Manager' : 'User',
+        text: currentMessage.trim(),
+        timestamp: new Date().toISOString()
+      };
+      setChatMessages(prev => [...prev, newMessage]);
+      setCurrentMessage('');
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="login-container">
@@ -459,7 +474,36 @@ The app is automatically deployed to AWS Amplify when changes are pushed to the 
 
       {/* Main Content */}
       <div className="main-content">
-        <div className="document-list">
+        {/* Chat Section */}
+        <div className="chat-section">
+          <div className="chat-header">
+            <h3>Chat</h3>
+          </div>
+          <div className="chat-messages">
+            {chatMessages.length === 0 ? (
+              <p>Start a conversation by asking about documents...</p>
+            ) : (
+              chatMessages.map((msg, index) => (
+                <div key={index} className="chat-message">
+                  <strong>{msg.user}:</strong> {msg.text}
+                </div>
+              ))
+            )}
+          </div>
+          <form className="chat-input" onSubmit={handleSendMessage}>
+            <input
+              type="text"
+              placeholder="Type your message..."
+              className="message-input"
+              value={currentMessage}
+              onChange={(e) => setCurrentMessage(e.target.value)}
+            />
+            <button type="submit" className="send-button">Send</button>
+          </form>
+        </div>
+
+        {/* Document List Section */}
+        <div className="document-list-section">
           <DocumentList 
             documents={getCurrentDocuments()}
             folders={getCurrentFolders()}
@@ -478,7 +522,9 @@ The app is automatically deployed to AWS Amplify when changes are pushed to the 
             onToggleUpload={() => setShowUpload(!showUpload)}
           />
         </div>
-        <div className="document-viewer">
+
+        {/* Document Viewer Section */}
+        <div className="document-viewer-section">
           {showUpload && isManagerMode ? (
             <DocumentUpload 
               onDocumentUpload={handleDocumentUpload}
