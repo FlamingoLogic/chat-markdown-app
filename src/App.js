@@ -3,6 +3,7 @@ import DocumentUpload from './components/DocumentUpload';
 import DocumentList from './components/DocumentList';
 import MarkdownViewer from './components/MarkdownViewer';
 import FolderManager from './components/FolderManager';
+import CategoryTiles from './components/CategoryTiles';
 import './App.css';
 
 function App() {
@@ -10,37 +11,82 @@ function App() {
   const [password, setPassword] = useState('');
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [currentFolder, setCurrentFolder] = useState('root');
+  const [currentCategory, setCurrentCategory] = useState(null);
   const [showFolderManager, setShowFolderManager] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState('');
   
-  // Updated data structure to support folders
+  // Updated data structure to support categories
+  const [categories] = useState([
+    {
+      id: 'hubs',
+      name: 'Hubs',
+      icon: '📍',
+      description: 'Central information centers',
+      color: '#3b82f6'
+    },
+    {
+      id: 'tools', 
+      name: 'Tools',
+      icon: '🔧',
+      description: 'Operational resources',
+      color: '#10b981'
+    },
+    {
+      id: 'tasks',
+      name: 'Tasks', 
+      icon: '✅',
+      description: 'Action items and workflows',
+      color: '#f59e0b'
+    },
+    {
+      id: 'roles',
+      name: 'Roles',
+      icon: '👥', 
+      description: 'People and responsibilities',
+      color: '#8b5cf6'
+    }
+  ]);
+
   const [folders, setFolders] = useState([
     {
       id: 'root',
       name: 'Root',
       parentId: null,
+      categoryId: null,
       createdAt: new Date().toISOString(),
       isRoot: true
     },
+    // Category-based folders
     {
-      id: 'getting-started',
-      name: 'Getting Started',
-      parentId: 'root',
+      id: 'hubs-main',
+      name: 'Main Hub',
+      parentId: 'hubs',
+      categoryId: 'hubs',
       createdAt: new Date().toISOString(),
       isRoot: false
     },
     {
-      id: 'technical-docs',
-      name: 'Technical Documentation',
-      parentId: 'root',
+      id: 'tools-analysis',
+      name: 'Analysis Tools',
+      parentId: 'tools',
+      categoryId: 'tools', 
       createdAt: new Date().toISOString(),
       isRoot: false
     },
     {
-      id: 'project-planning',
-      name: 'Project Planning',
-      parentId: 'root',
+      id: 'tasks-weekly',
+      name: 'Weekly Tasks',
+      parentId: 'tasks',
+      categoryId: 'tasks',
+      createdAt: new Date().toISOString(),
+      isRoot: false
+    },
+    {
+      id: 'roles-management',
+      name: 'Management Roles',
+      parentId: 'roles',
+      categoryId: 'roles',
       createdAt: new Date().toISOString(),
       isRoot: false
     }
@@ -49,197 +95,188 @@ function App() {
   const [documents, setDocuments] = useState([
     {
       id: 1,
-      title: 'Getting Started Guide',
-      content: `# Getting Started Guide
+      title: 'Hub Overview',
+      content: `# Hub Overview
 
-Welcome to the Chat-Referenced Markdown Document App! This application allows you to upload, organize, and view markdown documents with a beautiful, Obsidian-inspired interface.
+Welcome to the central information hub! This is where all critical information is centralized for easy access.
 
-## Features
+## What are Hubs?
 
-- **Document Upload**: Drag and drop markdown files or use the upload button
-- **Manager Mode**: Upload and manage documents (password: demo123)
-- **User Mode**: View published documents in a clean, readable format
-- **Folder Organization**: Organize documents into folders for better navigation
-- **Syntax Highlighting**: Code blocks are beautifully highlighted
-- **Responsive Design**: Works great on desktop and mobile devices
+Hubs serve as central information centers that bring together related resources, documents, and knowledge areas.
 
-## How to Use
+## Key Features
 
-### For Managers
-1. Enter the password to access manager mode
-2. Create folders to organize your documents
-3. Upload markdown files using drag-and-drop
-4. Assign documents to folders
-5. Publish documents to make them visible to users
+- **Centralized Information**: All related documents in one place
+- **Easy Navigation**: Quick access to frequently used resources  
+- **Knowledge Sharing**: Collaborative information management
+- **Search & Discovery**: Find what you need quickly
 
-### For Users
-1. Browse the folder structure to find documents
-2. Click on any document to view its content
-3. Use the back button to return to the document list
-4. Enjoy the clean, readable formatting
+## Getting Started
 
-## Getting Help
+1. Browse available hubs using the tile interface
+2. Click on any hub to explore its contents
+3. Use the search function to find specific information
+4. Add new documents to relevant hubs as a manager
 
-If you need assistance, check the Technical Documentation folder for more detailed information about the app's features and capabilities.`,
+This system helps organize information in a logical, accessible way that supports both individual work and team collaboration.`,
       status: 'published',
       uploadedAt: new Date().toISOString(),
-      folderId: 'getting-started'
+      folderId: 'hubs-main',
+      categoryId: 'hubs'
     },
     {
       id: 2,
-      title: 'Technical Documentation',
-      content: `# Technical Documentation
+      title: 'Analysis Toolkit',
+      content: `# Analysis Toolkit
 
-## Architecture Overview
+A comprehensive set of tools for data analysis, reporting, and decision making.
 
-This application is built with modern web technologies:
+## Available Tools
 
-- **Frontend**: React with Create React App
-- **Styling**: Custom CSS with dark theme
-- **Markdown Rendering**: react-markdown with rehype-highlight
-- **Deployment**: AWS Amplify with automatic CI/CD
+### Data Analysis
+- Statistical analysis templates
+- Data visualization guides  
+- Reporting frameworks
+- Performance metrics
 
-## API Endpoints
+### Process Tools
+- Workflow templates
+- Process mapping guides
+- Efficiency analysis
+- Quality assurance checklists
 
-### Document Management
-\`\`\`javascript
-// Upload document
-POST /api/documents
-{
-  "title": "Document Title",
-  "content": "Markdown content",
-  "folderId": "folder-id"
-}
+### Decision Support
+- Decision matrices
+- Risk assessment tools
+- Cost-benefit analysis
+- Strategic planning templates
 
-// Get documents
-GET /api/documents?folderId=folder-id
+## How to Use
 
-// Update document
-PUT /api/documents/:id
-{
-  "title": "Updated Title",
-  "status": "published",
-  "folderId": "new-folder-id"
-}
-\`\`\`
+1. Select the appropriate tool for your task
+2. Follow the step-by-step guidance
+3. Customize templates to your needs
+4. Document results for future reference
 
-### Folder Management
-\`\`\`javascript
-// Create folder
-POST /api/folders
-{
-  "name": "Folder Name",
-  "parentId": "parent-folder-id"
-}
-
-// Get folder tree
-GET /api/folders
-
-// Move folder
-PUT /api/folders/:id
-{
-  "parentId": "new-parent-id"
-}
-\`\`\`
-
-## Data Model
-
-### Document Structure
-\`\`\`json
-{
-  "id": "unique-id",
-  "title": "Document Title",
-  "content": "Markdown content",
-  "status": "published|draft|archived",
-  "uploadedAt": "2024-01-01T00:00:00Z",
-  "folderId": "folder-id"
-}
-\`\`\`
-
-### Folder Structure
-\`\`\`json
-{
-  "id": "unique-id",
-  "name": "Folder Name",
-  "parentId": "parent-folder-id",
-  "createdAt": "2024-01-01T00:00:00Z",
-  "isRoot": false
-}
-\`\`\`
-
-## Development Setup
-
-1. Clone the repository
-2. Install dependencies: \`npm install\`
-3. Start development server: \`npm start\`
-4. Build for production: \`npm run build\`
-
-## Deployment
-
-The app is automatically deployed to AWS Amplify when changes are pushed to the main branch of the GitHub repository.`,
+These tools are designed to support evidence-based decision making and improve operational efficiency.`,
       status: 'published',
       uploadedAt: new Date().toISOString(),
-      folderId: 'technical-docs'
+      folderId: 'tools-analysis',
+      categoryId: 'tools'
     },
     {
       id: 3,
-      title: 'Project Roadmap',
-      content: `# Project Roadmap
+      title: 'Weekly Task Planning',
+      content: `# Weekly Task Planning
 
-## Phase 1: Core Features ✅
-- [x] Document upload and management
-- [x] Markdown rendering with syntax highlighting
-- [x] Manager/User mode toggle
-- [x] Document status management
-- [x] Responsive design
-- [x] Navigation improvements
+Systematic approach to planning and managing weekly tasks for optimal productivity.
 
-## Phase 2: Organization Features 🚧
-- [x] Folder structure implementation
-- [ ] Drag and drop file organization
-- [ ] Breadcrumb navigation
-- [ ] Search functionality
-- [ ] Document tagging system
+## Planning Process
 
-## Phase 3: Advanced Features 📋
-- [ ] Real-time chat integration
-- [ ] Document collaboration
-- [ ] Version control
-- [ ] User management system
-- [ ] Advanced search with filters
+### Monday Planning
+- Review previous week outcomes
+- Set priorities for current week
+- Allocate time blocks for major tasks
+- Identify potential roadblocks
 
-## Phase 4: Enterprise Features 🔮
-- [ ] API authentication
-- [ ] Role-based permissions
-- [ ] Audit logging
-- [ ] Backup and restore
-- [ ] Analytics dashboard
+### Daily Reviews
+- **Tuesday**: Progress check and adjustments
+- **Wednesday**: Mid-week evaluation
+- **Thursday**: Preparation for week completion
+- **Friday**: Week wrap-up and next week preview
 
-## Timeline
+## Task Categories
 
-| Phase | Duration | Status |
-|-------|----------|---------|
-| Phase 1 | 2 weeks | ✅ Complete |
-| Phase 2 | 1 week | 🚧 In Progress |
-| Phase 3 | 2 weeks | 📋 Planned |
-| Phase 4 | 3 weeks | 🔮 Future |
+### High Priority
+- Critical deadlines
+- Client deliverables
+- Team dependencies
+- Strategic initiatives
 
-## Next Steps
+### Medium Priority  
+- Routine operations
+- Process improvements
+- Documentation updates
+- Training activities
 
-1. Complete folder management system
-2. Implement drag-and-drop organization
-3. Add search functionality
-4. Begin chat integration planning
+### Low Priority
+- Administrative tasks
+- Optional improvements
+- Research and development
+- Nice-to-have features
 
-## Notes
+## Success Metrics
 
-- Prioritize user experience and intuitive navigation
-- Maintain clean, readable code structure
-- Ensure mobile responsiveness throughout
-- Consider accessibility requirements`,
+- Task completion rates
+- Quality of deliverables
+- Time management efficiency
+- Stakeholder satisfaction
+
+Regular weekly planning helps maintain focus, improve productivity, and ensure important tasks receive appropriate attention.`,
+      status: 'published',
+      uploadedAt: new Date().toISOString(), 
+      folderId: 'tasks-weekly',
+      categoryId: 'tasks'
+    },
+    {
+      id: 4,
+      title: 'Management Role Guide',
+      content: `# Management Role Guide
+
+Comprehensive guide to management responsibilities, expectations, and best practices.
+
+## Core Responsibilities
+
+### Team Leadership
+- Setting clear expectations and goals
+- Providing regular feedback and coaching
+- Supporting professional development
+- Facilitating team collaboration
+
+### Strategic Planning
+- Long-term vision development
+- Resource allocation decisions
+- Risk management and mitigation
+- Performance monitoring and optimization
+
+### Stakeholder Management
+- Client relationship management
+- Internal communication coordination
+- Vendor and partner relationships
+- Board and executive reporting
+
+## Key Skills
+
+### Communication
+- Active listening
+- Clear and concise messaging
+- Conflict resolution
+- Presentation and facilitation
+
+### Decision Making
+- Data-driven analysis
+- Stakeholder consideration
+- Risk assessment
+- Implementation planning
+
+### Leadership
+- Vision casting
+- Team motivation
+- Change management
+- Cultural development
+
+## Performance Metrics
+
+- Team productivity and satisfaction
+- Goal achievement rates
+- Stakeholder feedback scores
+- Financial performance indicators
+
+Effective management requires balancing multiple responsibilities while maintaining focus on both people and results.`,
       status: 'published',
       uploadedAt: new Date().toISOString(),
-      folderId: 'project-planning'
+      folderId: 'roles-management', 
+      categoryId: 'roles'
     }
   ]);
 
@@ -347,8 +384,11 @@ The app is automatically deployed to AWS Amplify when changes are pushed to the 
     return folders.filter(f => f.parentId === currentFolder);
   };
 
-  // Get documents in current folder
+  // Get documents in current folder/category
   const getCurrentDocuments = () => {
+    if (currentCategory) {
+      return documents.filter(doc => doc.categoryId === currentCategory);
+    }
     return documents.filter(doc => doc.folderId === currentFolder);
   };
 
@@ -419,6 +459,19 @@ The app is automatically deployed to AWS Amplify when changes are pushed to the 
       setChatMessages(prev => [...prev, newMessage]);
       setCurrentMessage('');
     }
+  };
+
+  // Category navigation
+  const handleCategorySelect = (categoryId) => {
+    setCurrentCategory(categoryId);
+    setCurrentFolder(categoryId);
+    setSelectedDocument(null);
+  };
+
+  const handleBackToCategories = () => {
+    setCurrentCategory(null);
+    setCurrentFolder('root');
+    setSelectedDocument(null);
   };
 
   if (!isAuthenticated) {
@@ -504,24 +557,36 @@ The app is automatically deployed to AWS Amplify when changes are pushed to the 
 
         {/* Document List Section */}
         <div className="document-list-section">
-          <DocumentList 
-            documents={documents}
-            currentDocuments={getCurrentDocuments()}
-            folders={getCurrentFolders()}
-            currentFolder={getCurrentFolder()}
-            breadcrumbPath={getBreadcrumbPath()}
-            onDocumentSelect={handleDocumentSelect}
-            onFolderSelect={handleFolderSelect}
-            onBreadcrumbClick={handleBreadcrumbClick}
-            selectedDocument={selectedDocument}
-            isManagerMode={isManagerMode}
-            onUpdateDocument={handleUpdateDocument}
-            onMoveDocument={handleMoveDocument}
-            onCreateFolder={handleCreateFolder}
-            onDeleteFolder={handleDeleteFolder}
-            showUpload={showUpload}
-            onToggleUpload={() => setShowUpload(!showUpload)}
-          />
+          {!currentCategory ? (
+            <CategoryTiles 
+              categories={categories}
+              documents={documents}
+              onCategorySelect={handleCategorySelect}
+              isManagerMode={isManagerMode}
+            />
+          ) : (
+            <DocumentList 
+              documents={documents}
+              currentDocuments={getCurrentDocuments()}
+              folders={getCurrentFolders()}
+              currentFolder={getCurrentFolder()}
+              breadcrumbPath={getBreadcrumbPath()}
+              onDocumentSelect={handleDocumentSelect}
+              onFolderSelect={handleFolderSelect}
+              onBreadcrumbClick={handleBreadcrumbClick}
+              selectedDocument={selectedDocument}
+              isManagerMode={isManagerMode}
+              onUpdateDocument={handleUpdateDocument}
+              onMoveDocument={handleMoveDocument}
+              onCreateFolder={handleCreateFolder}
+              onDeleteFolder={handleDeleteFolder}
+              showUpload={showUpload}
+              onToggleUpload={() => setShowUpload(!showUpload)}
+              onBackToCategories={handleBackToCategories}
+              currentCategory={currentCategory}
+              categories={categories}
+            />
+          )}
         </div>
 
         {/* Document Viewer Section */}

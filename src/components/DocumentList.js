@@ -17,11 +17,19 @@ const DocumentList = ({
   onCreateFolder,
   onDeleteFolder,
   showUpload,
-  onToggleUpload
+  onToggleUpload,
+  onBackToCategories,
+  currentCategory,
+  categories
 }) => {
   const [showCreateFolder, setShowCreateFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
   const [draggedItem, setDraggedItem] = useState(null);
+
+  // Get current category info
+  const getCurrentCategoryInfo = () => {
+    return categories?.find(cat => cat.id === currentCategory);
+  };
 
   const handleCreateFolder = (e) => {
     e.preventDefault();
@@ -70,7 +78,26 @@ const DocumentList = ({
     <div className="document-list">
       {/* Header */}
       <div className="document-list-header">
-        <h3>Documents</h3>
+        {currentCategory && (
+          <div className="category-context">
+            <button 
+              onClick={onBackToCategories}
+              className="back-to-categories-button"
+            >
+              ← Back to Categories
+            </button>
+            <div className="category-info">
+              <span className="category-icon">{getCurrentCategoryInfo()?.icon}</span>
+              <div className="category-details">
+                <h3>{getCurrentCategoryInfo()?.name}</h3>
+                <p className="category-description">{getCurrentCategoryInfo()?.description}</p>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {!currentCategory && <h3>Documents</h3>}
+        
         {isManagerMode && (
           <div className="header-actions">
             <button
