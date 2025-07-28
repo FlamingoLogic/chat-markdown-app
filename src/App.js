@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import DocumentUpload from './components/DocumentUpload';
 import DocumentList from './components/DocumentList';
 import MarkdownViewer from './components/MarkdownViewer';
-import FolderManager from './components/FolderManager';
 import CategoryTiles from './components/CategoryTiles';
 import LoginPage from './components/LoginPage';
 import { auth } from './lib/supabase';
@@ -15,7 +14,6 @@ function App() {
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [currentFolder, setCurrentFolder] = useState('root');
   const [currentCategory, setCurrentCategory] = useState(null);
-  const [showFolderManager, setShowFolderManager] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState('');
   const [isManagerMode, setIsManagerMode] = useState(false);
