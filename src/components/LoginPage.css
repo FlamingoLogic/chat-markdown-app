@@ -1,53 +1,59 @@
 .login-container {
   min-height: 100vh;
+  height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .login-card {
   background: white;
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  padding: 2rem;
-  max-width: 480px;
+  padding: 1.5rem;
+  max-width: 450px;
   width: 100%;
-  margin: 0 auto;
+  margin: 1rem auto;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .login-header h2 {
   margin: 0 0 0.5rem 0;
   color: #1e293b;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 700;
 }
 
 .login-header p {
   margin: 0;
   color: #64748b;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 /* Login Type Selector */
 .login-type-selector {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .type-button {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.5rem;
+  gap: 0.75rem;
+  padding: 1rem;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
   background: #f8fafc;
@@ -117,11 +123,11 @@
 
 /* Login Forms */
 .login-form {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .form-group label {
@@ -129,15 +135,15 @@
   margin-bottom: 0.5rem;
   color: #374151;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 0.75rem 1rem;
   border: 2px solid #e5e7eb;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
@@ -169,10 +175,10 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 1rem 1.5rem;
+  padding: 0.875rem 1.5rem;
   border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -284,27 +290,86 @@
 @media (max-width: 640px) {
   .login-container {
     padding: 0.5rem;
+    align-items: flex-start;
+    padding-top: 2rem;
   }
 
   .login-card {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    margin: 0.5rem auto;
+    max-height: calc(100vh - 1rem);
   }
 
   .login-type-selector {
     grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
 
   .type-button {
-    padding: 1rem;
+    padding: 0.875rem;
   }
 
   .type-icon {
-    min-width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
+    min-width: 45px;
+    height: 45px;
+    font-size: 1.4rem;
+  }
+
+  .login-header {
+    margin-bottom: 1.25rem;
   }
 
   .login-header h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .form-group {
+    margin-bottom: 0.875rem;
+  }
+
+  .login-form {
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 0.25rem;
+    padding-top: 1rem;
+  }
+
+  .login-card {
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 0.25rem auto;
+  }
+
+  .login-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .login-header p {
+    font-size: 0.85rem;
+  }
+
+  .type-button {
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .type-icon {
+    min-width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .form-group input {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9rem;
+  }
+
+  .login-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
   }
 } 
