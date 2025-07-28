@@ -65,9 +65,6 @@ const LoginPage = ({ onLogin }) => {
         <div className="login-header">
           <h2>🔑 Access Portal</h2>
           <p>Choose your access type to continue</p>
-          <small style={{color: '#666', fontSize: '0.8rem'}}>
-            Debug: Current type = {loginType}
-          </small>
         </div>
 
         {/* Login Type Selector */}
@@ -76,7 +73,6 @@ const LoginPage = ({ onLogin }) => {
             type="button"
             className={`type-button ${loginType === 'user' ? 'active' : ''}`}
             onClick={() => {
-              console.log('Switching to user login');
               setLoginType('user');
               setError('');
             }}
@@ -92,7 +88,6 @@ const LoginPage = ({ onLogin }) => {
             type="button"
             className={`type-button ${loginType === 'admin' ? 'active' : ''}`}
             onClick={() => {
-              console.log('Switching to admin login');
               setLoginType('admin');
               setError('');
             }}
