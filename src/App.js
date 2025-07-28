@@ -505,7 +505,8 @@ The app is automatically deployed to AWS Amplify when changes are pushed to the 
         {/* Document List Section */}
         <div className="document-list-section">
           <DocumentList 
-            documents={getCurrentDocuments()}
+            documents={documents}
+            currentDocuments={getCurrentDocuments()}
             folders={getCurrentFolders()}
             currentFolder={getCurrentFolder()}
             breadcrumbPath={getBreadcrumbPath()}

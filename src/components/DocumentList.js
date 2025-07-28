@@ -3,6 +3,7 @@ import './DocumentList.css';
 
 const DocumentList = ({
   documents,
+  currentDocuments,
   folders,
   currentFolder,
   breadcrumbPath,
@@ -61,9 +62,9 @@ const DocumentList = ({
     onUpdateDocument(documentId, { status: 'archived' });
   };
 
-  const visibleDocuments = isManagerMode 
-    ? documents 
-    : documents.filter(doc => doc.status === 'published');
+  const visibleCurrentDocuments = isManagerMode 
+    ? currentDocuments 
+    : currentDocuments.filter(doc => doc.status === 'published');
 
   return (
     <div className="document-list">
@@ -186,18 +187,18 @@ const DocumentList = ({
       )}
 
       {/* Documents List */}
-      <div className="documents-section">
-        <h4>Documents</h4>
-        {visibleDocuments.length === 0 ? (
+              <div className="documents-section">
+          <h4>Documents</h4>
+          {visibleCurrentDocuments.length === 0 ? (
           <div className="no-documents">
             <p>No documents in this folder</p>
             {isManagerMode && (
               <p className="hint">Upload documents or create folders to organize your content</p>
             )}
           </div>
-        ) : (
-          <div className="documents-grid">
-            {visibleDocuments.map(doc => (
+                  ) : (
+            <div className="documents-grid">
+              {visibleCurrentDocuments.map(doc => (
               <div
                 key={doc.id}
                 className={`document-item ${selectedDocument?.id === doc.id ? 'selected' : ''}`}
