@@ -88,6 +88,13 @@
   line-height: 1;
 }
 
+.tile-badge-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
 .tile-badge {
   background: var(--category-color);
   color: #000;
@@ -96,6 +103,19 @@
   font-size: 0.8rem;
   font-weight: 600;
   white-space: nowrap;
+}
+
+.system-badge {
+  background: #dc2626;
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  cursor: help;
 }
 
 /* Tile Content */

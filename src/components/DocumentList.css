@@ -426,9 +426,31 @@
 }
 
 .archive-button:hover {
-  background: #5f1a1a;
-  border-color: #f87171;
-  color: #f87171;
+  background: #6b7280;
+}
+
+.archive-button:disabled,
+.publish-button:disabled,
+.unpublish-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.archive-button:disabled:hover,
+.publish-button:disabled:hover,
+.unpublish-button:disabled:hover {
+  background: #6b7280;
+}
+
+.system-document-indicator {
+  background: #dc2626;
+  color: #fff;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  cursor: help;
 }
 
 /* No Documents State */

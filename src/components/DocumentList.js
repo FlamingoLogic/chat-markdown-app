@@ -280,6 +280,7 @@ const DocumentList = ({
                         }}
                         className="publish-button"
                         title="Publish document"
+                        disabled={doc.isSystemDocument}
                       >
                         ✅
                       </button>
@@ -291,6 +292,7 @@ const DocumentList = ({
                         }}
                         className="unpublish-button"
                         title="Unpublish document"
+                        disabled={doc.isSystemDocument}
                       >
                         ⏸️
                       </button>
@@ -302,9 +304,15 @@ const DocumentList = ({
                       }}
                       className="archive-button"
                       title="Archive document"
+                      disabled={doc.isSystemDocument}
                     >
                       🗃️
                     </button>
+                    {doc.isSystemDocument && (
+                      <div className="system-document-indicator" title="System Protected Document">
+                        🔒
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

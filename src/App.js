@@ -19,6 +19,14 @@ function App() {
   // Updated data structure to support categories
   const [categories] = useState([
     {
+      id: 'ndis-key-info',
+      name: 'NDIS Key Information',
+      icon: '🔑',
+      description: 'Essential NDIS data and core information',
+      color: '#dc2626',
+      isSystemCategory: true // Cannot be modified by managers
+    },
+    {
       id: 'hubs',
       name: 'Hubs',
       icon: '📍',
@@ -57,6 +65,34 @@ function App() {
       createdAt: new Date().toISOString(),
       isRoot: true
     },
+    // NDIS Key Information - System category
+    {
+      id: 'ndis-overview',
+      name: 'NDIS Overview',
+      parentId: 'ndis-key-info',
+      categoryId: 'ndis-key-info',
+      createdAt: new Date().toISOString(),
+      isRoot: false,
+      isSystemFolder: true
+    },
+    {
+      id: 'ndis-funding',
+      name: 'Funding Categories',
+      parentId: 'ndis-key-info',
+      categoryId: 'ndis-key-info',
+      createdAt: new Date().toISOString(),
+      isRoot: false,
+      isSystemFolder: true
+    },
+    {
+      id: 'ndis-supports',
+      name: 'Support Categories',
+      parentId: 'ndis-key-info',
+      categoryId: 'ndis-key-info',
+      createdAt: new Date().toISOString(),
+      isRoot: false,
+      isSystemFolder: true
+    },
     // Category-based folders
     {
       id: 'hubs-main',
@@ -93,6 +129,441 @@ function App() {
   ]);
 
   const [documents, setDocuments] = useState([
+    // NDIS Key Information Documents (System Protected)
+    {
+      id: 100,
+      title: 'NDIS Overview & Fundamentals',
+      content: `# NDIS Overview & Fundamentals
+
+## What is the NDIS?
+
+The National Disability Insurance Scheme (NDIS) is Australia's way of providing insurance for people with disability. It provides funding for supports and services that help people with disability live an ordinary life.
+
+## Key Principles
+
+### 1. Person-Centered Approach
+- Participants choose their own goals
+- Flexible support options
+- Control over decision-making
+- Individualized planning process
+
+### 2. Early Intervention Focus
+- Prevent deterioration of functional capacity
+- Improve developmental outcomes
+- Reduce future support needs
+- Investment in long-term independence
+
+### 3. Mainstream Integration
+- Connect with community services
+- Education and employment support
+- Health system coordination
+- Transport and housing integration
+
+## NDIS Eligibility
+
+### Age Requirements
+- Under 65 years old when first accessing the scheme
+- Australian citizen, permanent resident, or protected special category visa holder
+
+### Disability Requirements
+- **Permanent impairment** that is likely to be lifelong
+- **Functional impact** that affects ability to take part effectively in activities
+- **Support needs** that are likely to continue throughout life
+
+### Early Intervention Requirements
+- Impairment that may benefit from early intervention
+- Support likely to reduce future support needs
+- Evidence that intervention will be beneficial
+
+## The Planning Process
+
+### 1. Access Request
+- Submit access request form
+- Provide evidence of disability
+- NDIA assessment of eligibility
+
+### 2. Planning Meeting
+- Discuss goals and aspirations
+- Identify current supports
+- Explore funded support needs
+- Create NDIS plan
+
+### 3. Plan Implementation
+- Choose service providers
+- Begin receiving supports
+- Monitor progress towards goals
+
+### 4. Plan Reviews
+- Annual plan reviews (minimum)
+- Request reviews when circumstances change
+- Update goals and funding as needed
+
+## Participant Rights
+
+- **Choice and control** over supports and providers
+- **Privacy and confidentiality** of personal information
+- **Respect and dignity** in all interactions
+- **Access to information** about rights and options
+- **Complaints process** for concerns or disputes
+
+## Support Coordination
+
+### Types
+- **Support Connection**: Help finding and connecting with providers
+- **Support Coordination**: Assist with plan implementation and building capacity
+- **Specialist Support Coordination**: Complex needs requiring specialized expertise
+
+### Key Functions
+- Understanding NDIS plans
+- Finding appropriate providers
+- Building participant capacity
+- Coordinating multiple supports
+- Crisis response and problem-solving`,
+      status: 'published',
+      uploadedAt: new Date().toISOString(),
+      folderId: 'ndis-overview',
+      categoryId: 'ndis-key-info',
+      isSystemDocument: true
+    },
+    {
+      id: 101,
+      title: 'NDIS Funding Categories',
+      content: `# NDIS Funding Categories
+
+## Core Supports
+
+Core supports help with daily life activities and are the foundation of every NDIS plan.
+
+### Assistance with Daily Life
+- **Personal care** (showering, dressing, toileting)
+- **Domestic assistance** (cleaning, cooking, shopping)
+- **Community participation** (social activities, recreation)
+- **Transport** to access community, social, and recreational activities
+
+### Consumables
+- **Continence aids** and low-cost assistive technology
+- **Equipment modifications** under $1,500
+- **Vehicle modifications** under $1,500
+
+### Transport
+- **Public transport training**
+- **Taxi transport** for disability-related needs
+- **Specialized transport** where public transport isn't accessible
+
+## Capital Supports
+
+Capital supports are higher-cost items that help participants become more independent.
+
+### Assistive Technology
+- **Communication devices** (speech generating devices, tablets)
+- **Mobility aids** (wheelchairs, walking frames, ramps)
+- **Vision aids** (magnifiers, screen readers)
+- **Hearing aids** and assistive listening devices
+- **Environmental controls** (smart home technology)
+
+### Home Modifications
+- **Structural modifications** (ramps, bathroom modifications)
+- **Accessibility improvements** (doorway widening, lighting)
+- **Safety features** (grab rails, non-slip surfaces)
+
+### Vehicle Modifications
+- **Wheelchair access** (hoists, ramps)
+- **Driving aids** (hand controls, spinner knobs)
+- **Passenger safety** (specialized seating, restraints)
+
+## Capacity Building
+
+Capacity building supports help participants build skills and independence.
+
+### Support Coordination
+- **Support Connection** (12 months maximum)
+- **Support Coordination** (ongoing as needed)
+- **Specialist Support Coordination** (complex cases)
+
+### Improved Living Arrangements
+- **Assistance to live independently** (life skills development)
+- **Finding and keeping a home** (tenancy support)
+- **Household tasks** (meal planning, budgeting)
+
+### Increased Social and Community Participation
+- **Community connection** activities
+- **Social skills development**
+- **Recreational activities** and group programs
+- **Peer support** programs
+
+### Finding and Keeping a Job
+- **Employment preparation** and job seeking skills
+- **Workplace modifications** and support
+- **Self-employment** assistance
+- **Career counseling** and planning
+
+### Improved Relationships
+- **Communication skills** development
+- **Relationship building** support
+- **Family and carer support**
+- **Conflict resolution** assistance
+
+### Improved Health and Wellbeing
+- **Exercise and fitness** programs
+- **Mental health support**
+- **Nutrition and meal planning**
+- **Medication management**
+
+### Improved Learning
+- **Educational support** (not curriculum)
+- **Study skills** development
+- **Assistive technology** for learning
+- **Transition planning** between education levels
+
+### Improved Daily Living
+- **Life skills** development
+- **Personal care** skill building
+- **Money management** and budgeting
+- **Home safety** and maintenance
+
+## SIL (Supported Independent Living)
+
+### Overview
+24/7 support for people with very high support needs who require help with daily tasks.
+
+### Eligibility Criteria
+- **High support needs** requiring assistance most of the time
+- **Complex needs** requiring specialized disability support
+- **Alternative options** have been considered and are not suitable
+
+### Types of SIL
+- **Individual arrangements** (1:1 support)
+- **Shared arrangements** (1:2, 1:3, 1:4 ratios)
+- **Group homes** with varying support levels
+
+### SIL Review Process
+- **Annual reviews** minimum
+- **Participant choice** in providers and arrangements
+- **Value for money** assessments
+- **Outcomes measurement** and reporting
+
+## Plan Management Options
+
+### Self-Managed
+- **Direct payment** to participant
+- **Full control** over provider choice
+- **Financial responsibility** for payments and reporting
+- **Flexibility** in service delivery
+
+### Plan-Managed
+- **Plan manager** handles financial administration
+- **Choice of any provider** (registered or unregistered)
+- **No financial administration** burden on participant
+- **Monthly reporting** provided
+
+### NDIA-Managed
+- **NDIA pays providers** directly
+- **Must use registered providers** only
+- **No financial administration** for participant
+- **Limited provider choice**
+
+### Mixed Management
+- **Combination** of management types
+- **Different categories** managed differently
+- **Flexibility** based on participant needs and preferences`,
+      status: 'published',
+      uploadedAt: new Date().toISOString(),
+      folderId: 'ndis-funding',
+      categoryId: 'ndis-key-info',
+      isSystemDocument: true
+    },
+    {
+      id: 102,
+      title: 'NDIS Support Categories & Line Items',
+      content: `# NDIS Support Categories & Line Items
+
+## Core Supports (01)
+
+### 01_011 - Assistance with Daily Life Activities
+- **Personal care**: Showering, dressing, toileting, grooming
+- **Meal preparation**: Cooking, food preparation, eating assistance
+- **Domestic assistance**: Cleaning, laundry, shopping
+- **Community access**: Support to participate in community activities
+
+### 01_012 - Assistance with Household Tasks
+- **Cleaning**: General house cleaning, bathroom cleaning
+- **Laundry**: Washing, drying, folding clothes
+- **Shopping**: Grocery shopping, errands
+- **Meal preparation**: Basic cooking and kitchen tasks
+
+### 01_013 - Assistance with Self-Care Activities
+- **Personal hygiene**: Washing, bathing, oral care
+- **Dressing**: Getting dressed, choosing appropriate clothing
+- **Mobility assistance**: Moving around home and community
+- **Medication management**: Reminders and administration support
+
+### 01_021 - Transport
+- **Public transport training**: Learning to use buses, trains
+- **Taxi transport**: Accessible taxi services
+- **Community transport**: Specialized disability transport
+- **Travel training**: Building independent travel skills
+
+### 01_026 - Group and Centre Based Activities
+- **Day programs**: Community-based group activities
+- **Social programs**: Recreational and social participation
+- **Life skills groups**: Learning practical skills in group settings
+- **Respite services**: Short-term care and support
+
+## Transport (02)
+
+### 02_100 - Transport to Enable Social and Community Participation
+- **Community access**: Transport to social activities
+- **Recreation transport**: Access to leisure activities
+- **Shopping trips**: Transport for essential errands
+- **Medical appointments**: Non-disability related transport
+
+## Consumables (03)
+
+### 03_021 - Assistive Products for Personal Care and Safety
+- **Continence aids**: Adult diapers, protective clothing
+- **Bathroom safety**: Shower chairs, toilet frames
+- **Mobility aids**: Walking sticks, wheelchairs under $1,500
+- **Safety equipment**: Bed rails, sensor mats
+
+### 03_022 - Assistive Products for Communication and Information
+- **Communication aids**: Simple communication devices
+- **Computer software**: Accessibility software
+- **Mobile phones**: Basic accessible phones
+- **Writing aids**: Adapted pens, grips
+
+## Assistance with Social and Economic Participation (04)
+
+### 04_101 - Assistance to Access and/or Maintain Employment or Education
+- **Job coaching**: On-site employment support
+- **Workplace modifications**: Equipment and environmental changes
+- **Educational support**: Assistance with study activities
+- **Transition support**: Moving between education and employment
+
+### 04_102 - Finding and Keeping a Job
+- **Job search assistance**: Resume writing, interview preparation
+- **Career counseling**: Exploring employment options
+- **Workplace assessment**: Identifying support needs
+- **Employer engagement**: Working with employers on inclusion
+
+### 04_103 - Assistance with Social, Economic and Community Participation
+- **Community connection**: Building social networks
+- **Volunteer work**: Support to participate in volunteering
+- **Civic participation**: Voting, community meetings
+- **Cultural activities**: Arts, sports, recreation participation
+
+## Finding and Maintaining Accommodation (05)
+
+### 05_100 - Assistance with Decision Making, Daily Planning and Budgeting
+- **Financial planning**: Budgeting and money management
+- **Decision support**: Help with important choices
+- **Daily planning**: Organizing activities and appointments
+- **Goal setting**: Identifying and working towards objectives
+
+### 05_200 - Development of Daily Living and Life Skills
+- **Cooking skills**: Learning to prepare meals
+- **Cleaning skills**: Maintaining a clean home
+- **Personal care**: Developing self-care routines
+- **Social skills**: Building relationships and communication
+
+## Increased Social and Community Participation (06)
+
+### 06_100 - Therapeutic Supports
+- **Physiotherapy**: Movement and mobility therapy
+- **Occupational therapy**: Daily living skills therapy
+- **Speech therapy**: Communication and swallowing therapy
+- **Psychology**: Mental health and behavioral support
+
+### 06_200 - Behaviour Support
+- **Positive behavior support**: Developing behavior plans
+- **Crisis intervention**: Emergency behavior support
+- **Skill development**: Teaching alternative behaviors
+- **Environmental modifications**: Reducing behavior triggers
+
+## Improved Learning (07)
+
+### 07_100 - Educational Support
+- **Learning support**: Assistance with educational activities
+- **Study skills**: Developing effective learning strategies
+- **Educational planning**: Course selection and career planning
+- **Transition support**: Moving between education levels
+
+## Improved Health and Wellbeing (08)
+
+### 08_100 - Nursing
+- **Clinical care**: Medication administration, wound care
+- **Health monitoring**: Vital signs, health assessments
+- **Care coordination**: Working with medical professionals
+- **Health education**: Teaching health management skills
+
+### 08_200 - Allied Health
+- **Dietetics**: Nutrition planning and support
+- **Exercise physiology**: Fitness and mobility programs
+- **Podiatry**: Foot care and mobility support
+- **Mental health**: Counseling and psychological support
+
+## Assistive Technology (09)
+
+### 09_100 - Communication and Information Equipment
+- **Speech devices**: Communication aids and software
+- **Computer equipment**: Adapted computers and accessories
+- **Environmental controls**: Smart home technology
+- **Sensory equipment**: Hearing aids, magnifiers
+
+### 09_200 - Recreation Equipment
+- **Sports equipment**: Adapted sporting goods
+- **Gaming devices**: Accessible entertainment technology
+- **Musical instruments**: Adapted instruments
+- **Art supplies**: Accessible creative materials
+
+### 09_300 - Mobility Equipment
+- **Wheelchairs**: Manual and electric wheelchairs
+- **Walking aids**: Frames, sticks, crutches
+- **Transfer equipment**: Hoists, transfer boards
+- **Positioning equipment**: Seating and positioning aids
+
+## Home Modifications (10)
+
+### 10_100 - Household Tasks Equipment
+- **Kitchen modifications**: Accessible benches, appliances
+- **Cleaning equipment**: Adapted cleaning tools
+- **Laundry modifications**: Accessible washing facilities
+- **Storage solutions**: Accessible cupboards and shelving
+
+### 10_200 - Personal Mobility Equipment
+- **Ramps**: Portable and permanent ramps
+- **Handrails**: Internal and external rails
+- **Doorway modifications**: Widening and automation
+- **Floor modifications**: Non-slip surfaces, level access
+
+## Vehicle Modifications (11)
+
+### 11_100 - Vehicle Modifications
+- **Wheelchair access**: Hoists, ramps, lifts
+- **Driving controls**: Hand controls, spinner knobs
+- **Seating modifications**: Specialized car seats
+- **Storage solutions**: Wheelchair and equipment storage
+
+## Improved Daily Living (12)
+
+### 12_100 - Assistance in Coordinating or Managing Life Stages, Transitions and Supports
+- **Support coordination**: Plan implementation assistance
+- **Life transitions**: Moving home, changing services
+- **Crisis support**: Emergency assistance and planning
+- **Capacity building**: Developing independence skills
+
+## Supported Independent Living (13)
+
+### 13_100 - Supported Independent Living
+- **24/7 support**: Round-the-clock assistance
+- **Shared living**: Support in group arrangements
+- **Individual support**: 1:1 assistance arrangements
+- **Overnight support**: Sleep-over and on-call support`,
+      status: 'published',
+      uploadedAt: new Date().toISOString(),
+      folderId: 'ndis-supports',
+      categoryId: 'ndis-key-info',
+      isSystemDocument: true
+    },
     {
       id: 1,
       title: 'Hub Overview',

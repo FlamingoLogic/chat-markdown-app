@@ -35,8 +35,15 @@ const CategoryTiles = ({
             >
               <div className="tile-header">
                 <div className="tile-icon">{category.icon}</div>
-                <div className="tile-badge">
-                  {docCount} document{docCount !== 1 ? 's' : ''}
+                <div className="tile-badge-container">
+                  <div className="tile-badge">
+                    {docCount} document{docCount !== 1 ? 's' : ''}
+                  </div>
+                  {category.isSystemCategory && (
+                    <div className="system-badge" title="System Protected - Cannot be modified">
+                      🔒
+                    </div>
+                  )}
                 </div>
               </div>
               
