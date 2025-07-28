@@ -276,7 +276,7 @@ The app is automatically deployed to AWS Amplify when changes are pushed to the 
     const newFolder = {
       id: `folder-${Date.now()}`,
       name,
-      parentId,
+      parentId: parentId === 'root' ? 'root' : parentId,
       createdAt: new Date().toISOString(),
       isRoot: false
     };

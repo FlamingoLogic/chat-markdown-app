@@ -76,15 +76,22 @@ const DocumentList = ({
             <button
               onClick={() => setShowCreateFolder(!showCreateFolder)}
               className="create-folder-button"
+              title={`Create new folder in ${currentFolder?.name || 'Root'}`}
             >
               📁 New Folder
             </button>
             <button
               onClick={onToggleUpload}
               className="upload-toggle-button"
+              title={`Upload document to ${currentFolder?.name || 'Root'}`}
             >
               {showUpload ? 'Hide Upload' : '📄 Upload Document'}
             </button>
+          </div>
+        )}
+        {!isManagerMode && (
+          <div className="mode-indicator">
+            <span className="user-mode-text">👤 User Mode - Read Only</span>
           </div>
         )}
       </div>
@@ -113,18 +120,24 @@ const DocumentList = ({
       {/* Create Folder Form */}
       {showCreateFolder && (
         <div className="create-folder-form">
+          <div className="form-header">
+            <h4>Create New Folder</h4>
+            <p className="current-location">
+              📍 Creating in: <strong>{currentFolder?.name || 'Root'}</strong>
+            </p>
+          </div>
           <form onSubmit={handleCreateFolder}>
             <input
               type="text"
               value={newFolderName}
               onChange={(e) => setNewFolderName(e.target.value)}
-              placeholder="Folder name"
+              placeholder="Enter folder name"
               className="folder-name-input"
               autoFocus
             />
             <div className="form-actions">
               <button type="submit" className="create-button">
-                Create
+                ✅ Create Folder
               </button>
               <button
                 type="button"
@@ -134,7 +147,7 @@ const DocumentList = ({
                 }}
                 className="cancel-button"
               >
-                Cancel
+                ❌ Cancel
               </button>
             </div>
           </form>
@@ -144,44 +157,55 @@ const DocumentList = ({
       {/* Folder List */}
       {folders.length > 0 && (
         <div className="folders-section">
-          <h4>Folders</h4>
+          <h4>📁 Folders</h4>
           <div className="folders-grid">
-            {folders.map(folder => (
-              <div
-                key={folder.id}
-                className="folder-item"
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, folder.id)}
-              >
+            {folders.map(folder => {
+              const folderDocuments = documents.filter(doc => doc.folderId === folder.id);
+              const visibleDocuments = isManagerMode 
+                ? folderDocuments 
+                : folderDocuments.filter(doc => doc.status === 'published');
+              
+              return (
                 <div
-                  className="folder-content"
-                  onClick={() => onFolderSelect(folder.id)}
+                  key={folder.id}
+                  className="folder-item"
+                  onDragOver={handleDragOver}
+                  onDrop={(e) => handleDrop(e, folder.id)}
                 >
-                  <div className="folder-icon">📁</div>
-                  <div className="folder-info">
-                    <h5>{folder.name}</h5>
-                    <span className="folder-meta">
-                      {documents.filter(doc => doc.folderId === folder.id).length} documents
-                    </span>
-                  </div>
-                </div>
-                {isManagerMode && (
-                  <div className="folder-actions">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (window.confirm(`Delete folder "${folder.name}"? Documents will be moved to parent folder.`)) {
-                          onDeleteFolder(folder.id);
+                  <div
+                    className="folder-content"
+                    onClick={() => onFolderSelect(folder.id)}
+                  >
+                    <div className="folder-icon">📁</div>
+                    <div className="folder-info">
+                      <h5>{folder.name}</h5>
+                      <span className="folder-meta">
+                        {visibleDocuments.length} document{visibleDocuments.length !== 1 ? 's' : ''}
+                        {!isManagerMode && folderDocuments.length !== visibleDocuments.length && 
+                          ` (${folderDocuments.length - visibleDocuments.length} hidden)`
                         }
-                      }}
-                      className="delete-folder-button"
-                    >
-                      🗑️
-                    </button>
+                      </span>
+                    </div>
                   </div>
-                )}
-              </div>
-            ))}
+                  {isManagerMode && (
+                    <div className="folder-actions">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (window.confirm(`Delete folder "${folder.name}"? Documents will be moved to parent folder.`)) {
+                            onDeleteFolder(folder.id);
+                          }
+                        }}
+                        className="delete-folder-button"
+                        title="Delete folder"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
