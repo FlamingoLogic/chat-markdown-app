@@ -1,9 +1,43 @@
-import { createClient } from '@supabase/supabase-js'
+// Mock Supabase client for demo purposes
+// Replace with real Supabase configuration when ready
+const mockSupabase = {
+  auth: {
+    signInWithPassword: async ({ email, password }) => {
+      // Mock admin login
+      if (email === 'admin@demo.com' && password === 'admin123') {
+        return {
+          data: {
+            user: {
+              id: 'admin-user-id',
+              email: 'admin@demo.com',
+              user_type: 'admin'
+            }
+          },
+          error: null
+        }
+      }
+      return {
+        data: null,
+        error: { message: 'Invalid email or password' }
+      }
+    },
+    signOut: async () => {
+      return { error: null }
+    },
+    getUser: async () => {
+      return { data: null, error: null }
+    }
+  },
+  from: (table) => ({
+    insert: async (data) => {
+      // Mock database insert
+      console.log('Mock insert:', table, data)
+      return { error: null }
+    }
+  })
+}
 
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'your-supabase-url'
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'your-supabase-anon-key'
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = mockSupabase
 
 // Storage bucket for PDFs
 export const PDF_BUCKET = 'pdf-uploads'
@@ -29,29 +63,14 @@ export const auth = {
 
   // User login with site password
   signInUser: async (sitePassword) => {
-    // Verify against site password (stored in environment or database)
-    const correctPassword = process.env.REACT_APP_SITE_PASSWORD || 'demo123'
+    // Simple password check for demo
+    const correctPassword = 'demo123'
     
     if (sitePassword === correctPassword) {
-      // Create a session record for user
-      const sessionId = `user_${Date.now()}`
-      const { error } = await supabase
-        .from(TABLES.user_sessions)
-        .insert({
-          id: sessionId,
-          user_type: 'user',
-          created_at: new Date().toISOString(),
-          expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 hours
-        })
-
-      if (error) {
-        return { data: null, error }
-      }
-
       return { 
         data: { 
           user: { 
-            id: sessionId, 
+            id: `user_${Date.now()}`, 
             user_type: 'user',
             email: 'site-user@local'
           } 
