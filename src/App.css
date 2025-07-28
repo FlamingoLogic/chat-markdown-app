@@ -32,7 +32,34 @@ body {
 .nav-left h2 {
   color: #fff;
   font-size: 1.5rem;
-  margin: 0;
+  margin: 0 0 0.5rem 0;
+}
+
+.user-info {
+  margin-top: 0.5rem;
+}
+
+.user-badge {
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+.mode-icon {
+  font-size: 1rem;
+  margin-right: 0.25rem;
+}
+
+.logout-icon {
+  font-size: 1rem;
+  margin-right: 0.25rem;
 }
 
 .nav-center {

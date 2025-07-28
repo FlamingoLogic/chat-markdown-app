@@ -4,17 +4,21 @@ import DocumentList from './components/DocumentList';
 import MarkdownViewer from './components/MarkdownViewer';
 import FolderManager from './components/FolderManager';
 import CategoryTiles from './components/CategoryTiles';
+import LoginPage from './components/LoginPage';
+import { auth } from './lib/supabase';
 import './App.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [password, setPassword] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userType, setUserType] = useState('user'); // 'admin' or 'user'
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [currentFolder, setCurrentFolder] = useState('root');
   const [currentCategory, setCurrentCategory] = useState(null);
   const [showFolderManager, setShowFolderManager] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState('');
+  const [isManagerMode, setIsManagerMode] = useState(false);
   
   // Updated data structure to support categories
   const [categories] = useState([
@@ -751,11 +755,28 @@ Effective management requires balancing multiple responsibilities while maintain
     }
   ]);
 
-  const [isManagerMode, setIsManagerMode] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
 
-  // Simple password check (in production, this would be more secure)
-  const SITE_PASSWORD = 'demo123';
+  // Handle login from LoginPage
+  const handleLogin = (loginData) => {
+    setCurrentUser(loginData.user);
+    setUserType(loginData.userType);
+    setIsManagerMode(loginData.isManagerMode);
+    setIsAuthenticated(true);
+  };
+
+  // Handle logout
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    setCurrentUser(null);
+    setUserType('user');
+    setIsManagerMode(false);
+    setIsAuthenticated(false);
+  };
 
   // Load data from localStorage on component mount
   useEffect(() => {
@@ -882,22 +903,7 @@ Effective management requires balancing multiple responsibilities while maintain
     return documents.filter(doc => doc.folderId === currentFolder);
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (password === SITE_PASSWORD) {
-      setIsAuthenticated(true);
-    } else {
-      alert('Incorrect password');
-    }
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setPassword('');
-    setIsManagerMode(false);
-    setCurrentFolder('root');
-    setSelectedDocument(null);
-  };
+  // Functions moved to top of component
 
   const handleDocumentUpload = (document) => {
     const newDocument = {
@@ -965,27 +971,7 @@ Effective management requires balancing multiple responsibilities while maintain
   };
 
   if (!isAuthenticated) {
-    return (
-      <div className="login-container">
-        <div className="login-card">
-          <div className="logo-container">
-            <h1>Chat Markdown App</h1>
-          </div>
-          <form onSubmit={handleLogin}>
-            <input
-              type="password"
-              placeholder="Enter site password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="password-input"
-            />
-            <button type="submit" className="login-button">
-              Access Site
-            </button>
-          </form>
-        </div>
-      </div>
-    );
+    return <LoginPage onLogin={handleLogin} />;
   }
 
   return (
@@ -993,7 +979,14 @@ Effective management requires balancing multiple responsibilities while maintain
       {/* Top Navigation */}
       <nav className="top-nav">
         <div className="nav-left">
-          <h2>Chat Markdown App</h2>
+          <h2>🏥 NDIS Knowledge System</h2>
+          <div className="user-info">
+            <span className="user-badge">
+              {userType === 'admin' ? '👨‍💼' : '👤'} 
+              {userType === 'admin' ? 'Admin' : 'User'}
+              {currentUser?.email && currentUser.email !== 'site-user@local' && ` - ${currentUser.email}`}
+            </span>
+          </div>
         </div>
         <div className="nav-center">
           <input
@@ -1003,13 +996,20 @@ Effective management requires balancing multiple responsibilities while maintain
           />
         </div>
         <div className="nav-right">
-          <button
-            onClick={() => setIsManagerMode(!isManagerMode)}
-            className={`mode-toggle ${isManagerMode ? 'active' : ''}`}
-          >
-            {isManagerMode ? 'User Mode' : 'Manager Mode'}
-          </button>
+          {userType === 'admin' && (
+            <button
+              onClick={() => setIsManagerMode(!isManagerMode)}
+              className={`mode-toggle ${isManagerMode ? 'active' : ''}`}
+              title={`Switch to ${isManagerMode ? 'User' : 'Manager'} mode`}
+            >
+              <span className="mode-icon">
+                {isManagerMode ? '👤' : '👨‍💼'}
+              </span>
+              {isManagerMode ? 'User Mode' : 'Manager Mode'}
+            </button>
+          )}
           <button onClick={handleLogout} className="logout-button">
+            <span className="logout-icon">🚪</span>
             Logout
           </button>
         </div>
