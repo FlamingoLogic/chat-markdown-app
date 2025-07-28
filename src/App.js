@@ -290,9 +290,28 @@ Effective management requires balancing multiple responsibilities while maintain
   useEffect(() => {
     const savedDocuments = localStorage.getItem('documents');
     const savedFolders = localStorage.getItem('folders');
+    const dataVersion = localStorage.getItem('dataVersion');
+    
+    // Clear old data if it doesn't have category support
+    if (dataVersion !== '2.0') {
+      localStorage.removeItem('documents');
+      localStorage.removeItem('folders');
+      localStorage.setItem('dataVersion', '2.0');
+      // Use default data with categories
+      return;
+    }
     
     if (savedDocuments) {
-      setDocuments(JSON.parse(savedDocuments));
+      const parsedDocs = JSON.parse(savedDocuments);
+      // Ensure all documents have categoryId
+      const updatedDocs = parsedDocs.map(doc => ({
+        ...doc,
+        categoryId: doc.categoryId || (doc.folderId?.includes('hubs') ? 'hubs' : 
+                   doc.folderId?.includes('tools') ? 'tools' :
+                   doc.folderId?.includes('tasks') ? 'tasks' :
+                   doc.folderId?.includes('roles') ? 'roles' : null)
+      }));
+      setDocuments(updatedDocs);
     }
     if (savedFolders) {
       setFolders(JSON.parse(savedFolders));
