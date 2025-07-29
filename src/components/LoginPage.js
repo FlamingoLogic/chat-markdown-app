@@ -61,6 +61,28 @@ const LoginPage = ({ onLogin }) => {
 
   return (
     <div className="login-container">
+      {/* Left side - Branding */}
+      <div className="login-branding">
+        <div className="brand-logo">🏥</div>
+        <h1 className="brand-title">NDIS Knowledge System</h1>
+        <p className="brand-subtitle">
+          Access comprehensive NDIS documentation, guides, and chat support for providers and participants.
+        </p>
+        
+        <div className="brand-features">
+          <h3>Available Features:</h3>
+          <ul className="feature-list">
+            <li>View published documents</li>
+            <li>Search knowledge base</li>
+            <li>AI chat assistance</li>
+            <li>Browse categories</li>
+            <li>Document management</li>
+            <li>Real-time updates</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Right side - Login Form */}
       <div className="login-card">
         <div className="login-header">
           <h2>🔑 Access Portal</h2>
